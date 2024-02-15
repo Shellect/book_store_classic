@@ -1,0 +1,24 @@
+extends main.pug
+
+block content
+    <main class="container">
+        <div class="row mt-3">
+            <div class="col">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    each card in cards
+                        <div class="col">
+                            <div class="card h-100">
+                                <img src="#{card.image}" alt="" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">#{card.title}</h5>
+                                    <p class="card-text">#{card.author}</p>
+                                </div>
+                                <div class="card-footer">
+                                    <input type="button" value="Select" class="btn btn-success">
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </main>

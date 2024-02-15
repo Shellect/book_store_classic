@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        title Book Store
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        link(rel="shortcut icon" href="/media/favicon.ico" type="image/x-icon")
+        link(rel="stylesheet" href="bootstrap.css")
+    body
+        header
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">Navbar</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        .navbar-nav
+                            a(class=["nav-link", page == "main" ? "active" : ""] aria-current="page" href="/") Home
+                            a(class=["nav-link", page == "profile" ? "active" : ""] href="/profile") Profile
+                            a(class=["nav-link", page == "order" ? "active" : ""] href="/order") Order
+                    </div>
+                </div>
+            </nav>
+        block content
+        //- footer
+        footer
+        <script src="/bootstrap.js"></script>
+        <script src="/media/script.js"></script>

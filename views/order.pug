@@ -1,0 +1,39 @@
+extends main.pug
+
+block content
+    main.container
+        .row.mt-3
+            .col-sm-12.col-md-8.offset-md-2.border.rounded.p-5
+                form(action="/buy" method="post")
+                    .row
+                        .col-3
+                            label.form-label Book:
+                        .col-9
+                            input.form-control(type="text" disabled="disabled" id="book-name" name="book_name")
+                    .row.mt-3
+                        .col-3
+                            label.form-label(for="book-quantity") Quantity:
+                        .col-9
+                            input.form-control(type="number" name="quantity" id="book-quantity")
+                    .row.mt-3
+                        .col-3
+                            label.form-label(for="username") Username:
+                        .col-9
+                            input.form-control(type="text" id="username" name="username")
+                    .row.mt-3
+                        .col-3
+                            label.form-label(for="address") Delivery address:
+                        .col-9
+                            textarea.form-control(name="address" id="address" rows="5")
+                    .row.mt-3
+                        .col-3
+                            label.form-label(for="date") Delivery date:
+                        .col-9
+                            input.form-control(type="date" name="date" id="date")
+                    .row.mt-3
+                        .col-3
+                            label.form-label(for="comment") Comment:
+                        .col-9
+                            textarea.form-control(name="comment" id="comment" rows="5")
+                    .d-grid.mt-5
+                        input.btn.btn-success(type="submit" value="Buy")
