@@ -1,3 +1,7 @@
+import "bootstrap/dist/js/bootstrap";
+import "bootstrap/scss/bootstrap.scss";
+import "bootstrap-icons/font/bootstrap-icons.scss";
+
 let books = document.querySelectorAll('.card');
 let formBook = document.querySelector("#book-name");
 

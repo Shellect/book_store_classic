@@ -3,8 +3,6 @@ const path = require('path');
 const pug = require('pug');
 const fs = require("fs");
 
-
-
 function error_log(err) {
     let d = new Date();
     let logFile = fs.createWriteStream(__dirname + '/error_report.log', { flags: 'a' });
@@ -36,9 +34,9 @@ app.get('/bootstrap.css', (req, res) => {
     res.sendFile(path.join(__dirname, "node_modules/bootstrap/dist/css/bootstrap.css"));
 });
 
-app.get('/bootstrap.js', (req, res) => {
-    res.sendFile(path.join(__dirname, "node_modules/bootstrap/dist/js/bootstrap.js"));
-});
+// app.get('/bootstrap.js', (req, res) => {
+//     res.sendFile(path.join(__dirname, "node_modules/bootstrap/dist/js/bootstrap.js"));
+// });
 
 app.post('/buy', (req, res) => {
     //     res.send("Покупка прошла успешно!");
@@ -68,8 +66,12 @@ app.get('/order', (req, res) => {
 
 app.get('/profile', (req, res) => {
     res.send("Profile page will be soon added!");
-})
+});
+
+app.get('/icons.css', (req, res) => {
+    res.sendFile(path.join(__dirname, "node_modules/bootstrap-icons/font/bootstrap-icons.min.css"));
+});
 
 app.listen(3000, () => {
     console.log(`Server started by address: http://localhost:3000`);
-})
+});
