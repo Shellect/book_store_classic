@@ -8,8 +8,15 @@ let formBook = document.querySelector("#book-name");
 for (let i = 0; i < books.length; i++) {
     books[i].addEventListener('click', e => {
         if(e.target.tagName === "INPUT") {
-            let title = books[i].querySelector(".card-title").innerText;
-            formBook.value = title;
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://bookshop.local:3000/buy");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onloadend = function () {
+                if (xhr.status == 200) {
+                    console.log(xhr.responseText);
+                }
+            }
+            xhr.send('{"book_id": 1}');
         }
     });
 }
