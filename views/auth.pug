@@ -1,0 +1,23 @@
+extends main.pug
+
+block content
+    div.wrapper
+        form(method="post" action="/auth")
+            div.mb-3.input-group
+                i.bi.bi-person-fill.input-group-text
+                input#username.form-control(placeholder="My name is")
+            div.mb-3.input-group
+                i.bi.bi-lock-fill.input-group-text
+                input#password.form-control(type="password")
+            div
+                input#auth-submit(type="button" value="Sign in")
+            div.radio-check
+                input#no.radio-no(type="radio", name="remember", value="no", checked)
+                label(for="no")
+                    i.fa.fa-times
+                input#yes.radio-yes(type="radio", name="remember", value="yes")
+                label(for="yes")
+                    ifa.fa-check
+                span.switch-selection
+            span.check-label Remember me
+            span.forgot-label Lost your password?
