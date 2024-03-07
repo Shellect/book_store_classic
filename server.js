@@ -4,6 +4,8 @@ const pug = require('pug');
 const fs = require("fs");
 const bodyParser = require("body-parser");
 const session = require('express-session');
+const redis = require("redis");
+const RedisStore = require("connect-redis").default
 
 function error_log(err) {
     let d = new Date();
@@ -12,14 +14,28 @@ function error_log(err) {
     console.log(err);
 }
 
+// Настройка клиент Redis
+const redisClient = redis.createClient({
+    host: '127.0.0.1',
+    port: 6379
+});
+redisClient.connect().catch(console.error);
+
+// Создание хранилища
+let redisStore = new RedisStore({
+    client: redisClient,
+    prefix: "bookshop:",
+});
+
 const app = express();
 app.use('/media', express.static('media'));
 app.use(bodyParser.json());
 app.use(session({
+    store: redisStore,
     secret: 'eptBATPhykOaN8LqWvl38KGdGa8ZRc60',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true }
+    cookie: { secure: false }
 }));
 
 app.get('/', (req, res) => {
@@ -46,7 +62,6 @@ app.get('/', (req, res) => {
  */
 app.post('/buy', (req, res) => {
     req.session.book_id = req.body.book_id;
-    console.log(req.session);
     res.sendStatus(200);
 });
 
