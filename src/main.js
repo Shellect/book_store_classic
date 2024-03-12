@@ -4,7 +4,6 @@ import "bootstrap-icons/font/bootstrap-icons.scss";
 import "./auth.scss";
 
 let books = document.querySelectorAll('.card');
-let formBook = document.querySelector("#book-name");
 
 for (let i = 0; i < books.length; i++) {
     books[i].addEventListener('click', e => {
@@ -22,8 +21,9 @@ for (let i = 0; i < books.length; i++) {
     });
 }
 
-document.querySelector("#auth-submit")
-    .addEventListener('click', e => {
+let submitBtn = document.querySelector("#auth-submit");
+if (submitBtn){
+    submitBtn.addEventListener('click', e => {
         let xhr = new XMLHttpRequest();
         xhr.open("POST", "http://bookshop.local:3000/auth");
         xhr.setRequestHeader("Content-Type", "application/json");
@@ -40,3 +40,4 @@ document.querySelector("#auth-submit")
         })
         xhr.send(body);
     });
+}

@@ -1,8 +1,5 @@
 const express = require('express');
-const path = require('path');
-const pug = require('pug');
 const fs = require("fs");
-const bodyParser = require("body-parser");
 const session = require('express-session');
 const redis = require("redis");
 const RedisStore = require("connect-redis").default
@@ -19,7 +16,7 @@ const redisClient = redis.createClient({
     host: '127.0.0.1',
     port: 6379
 });
-redisClient.connect().catch(console.error);
+redisClient.connect().catch(error_log);
 
 // Создание хранилища
 let redisStore = new RedisStore({
@@ -28,8 +25,9 @@ let redisStore = new RedisStore({
 });
 
 const app = express();
+app.set('view engine', 'pug');
 app.use('/media', express.static('media'));
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(session({
     store: redisStore,
     secret: 'eptBATPhykOaN8LqWvl38KGdGa8ZRc60',
@@ -43,45 +41,35 @@ app.get('/', (req, res) => {
         if (err) {
             error_log(err);
         }
-        let filename = path.join(__dirname, "views", "catalog.pug");
-        let template = pug.renderFile(
-            filename,
+        res.render(
+            "catalog",
             {
                 cards: JSON.parse(data),
                 page: "main"
             }
         )
-        res.send(template);
     })
 });
 
 
 /**
  * Добавление книги в корзину
- * @param {Request} req
  */
 app.post('/buy', (req, res) => {
-    req.session.book_id = req.body.book_id;
+    req.session.books = req.body.book_id;
     res.sendStatus(200);
 });
 
 app.get('/order', (req, res) => {
-    let filepath = path.join(__dirname, "views", "order.pug");
-    let template = pug.renderFile(filepath,
-        {
-            page: "order"
-        });
-    res.send(template);
+    res.render("order", { page: "order" });
 });
 
 app.get('/profile', (req, res) => {
-    res.send("Profile page will be soon added!");
+    res.render("profile", { page: "profile" });
 });
 
 app.get('/auth', (req, res) => {
-    let filepath = path.join(__dirname, "views", "auth.pug");
-    let template = pug.renderFile(filepath, {page: "auth"});
-    res.send(template);
+    res.render("auth", { page: "auth" });
 });
 
 app.post('/auth', (req, res) => {
