@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+doctype html
 html(lang="en")
     head
         title Book Store
@@ -13,14 +13,18 @@ html(lang="en")
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    div.collapse.navbar-collapse#navbarNavAltMarkup
                         .navbar-nav
                             a(class=["nav-link", page == "main" ? "active" : ""] aria-current="page" href="/") Home
                             a(class=["nav-link", page == "profile" ? "active" : ""] href="/profile") Profile
                             a(class=["nav-link", page == "order" ? "active" : ""] href="/order") Order
-                    </div>
-                    a.btn.btn-success(href="/profile")
-                        i.bi.bi-person-fill
+                    if user
+                        span Hello #{user}
+                        a.btn.btn-primary(href="/logout") Logout
+                        a.btn.btn-success(href="/profile")
+                            i.bi.bi-person-fill
+                    else
+                        a.btn.btn-primary(href="/auth") Login
         block content
         //- footer
         footer

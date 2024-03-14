@@ -5,19 +5,25 @@ block content
         form(method="post" action="/auth")
             div.mb-3.input-group
                 i.bi.bi-person-fill.input-group-text
-                input#username.form-control(placeholder="My name is")
+                input#username.form-control(name="username" placeholder="My name is")
+                each error in errors
+                    if error.path == 'username'
+                        span.text-danger= error.msg
             div.mb-3.input-group
                 i.bi.bi-lock-fill.input-group-text
-                input#password.form-control(type="password")
+                input#password.form-control(type="password" name="password")
+                each error in errors
+                    if error.path == 'password'
+                        span.text-danger= error.msg
             div
-                input#auth-submit(type="button" value="Sign in")
+                input#auth-submit(type="submit" value="Sign in")
             div.radio-check
                 input#no.radio-no(type="radio", name="remember", value="no", checked)
                 label(for="no")
                     i.fa.fa-times
                 input#yes.radio-yes(type="radio", name="remember", value="yes")
                 label(for="yes")
-                    ifa.fa-check
+                    i.fa.fa-check
                 span.switch-selection
             span.check-label Remember me
             span.forgot-label Lost your password?

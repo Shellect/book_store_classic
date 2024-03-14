@@ -1,4 +1,7 @@
+// Подключение модулей
 const express = require('express');
+const bodyParser = require("body-parser");
+const { body, validationResult } = require('express-validator');
 const fs = require("fs");
 const session = require('express-session');
 const redis = require("redis");
@@ -45,7 +48,8 @@ app.get('/', (req, res) => {
             "catalog",
             {
                 cards: JSON.parse(data),
-                page: "main"
+                page: "main",
+                user: req.session.user
             }
         )
     })
@@ -69,12 +73,35 @@ app.get('/profile', (req, res) => {
 });
 
 app.get('/auth', (req, res) => {
-    res.render("auth", { page: "auth" });
+    res.render("auth", { page: "auth", errors: [] });
 });
 
-app.post('/auth', (req, res) => {
-    res.sendStatus(200);
-});
+app.post('/auth',
+    bodyParser.urlencoded(),
+    body('username').notEmpty(),
+    body('password').notEmpty(),
+    (req, res, next) => {
+        const result = validationResult(req);
+        if (result.isEmpty()) {
+            // Если ошибок не найдено
+            req.session.regenerate(function (err) {
+                // Если redis не доступен передаём управление обработчику ошибок
+                if (err) next(err);
+
+                // Записываем информацию о авторизации пользователя в сессии
+                req.session.user = req.body.username;
+
+                // Сохраняем сессию
+                req.session.save(function (err) {
+                    if (err) return next(err);
+                    // Перенаправляем пользователя на главную страницу
+                    res.redirect('/');
+                });
+            });
+        } else {
+            res.render('auth', { errors: result.array() })
+        }
+    });
 
 app.listen(3000, () => {
     console.log(`Server started by address: http://bookshop.local:3000`);
