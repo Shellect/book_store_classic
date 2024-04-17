@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  redis_db:
+    image: redis:7.2.4-alpine
+    networks:
+      - book_store
+  server:
+    image: node:21.7.3-alpine3.18
+    user: node
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=development
+    networks:
+      - book_store
+    volumes:
+      - ./:/home/node/app/
+    ports:
+      - "3000:3000"
+    command: "npm start"
+
+networks:
+  book_store:
+    driver: bridge

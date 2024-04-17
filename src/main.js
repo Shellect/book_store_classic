@@ -3,6 +3,7 @@ import "bootstrap/scss/bootstrap.scss";
 import "bootstrap-icons/font/bootstrap-icons.scss";
 import "./auth.scss";
 
+
 let books = document.querySelectorAll('.card');
 
 for (let i = 0; i < books.length; i++) {

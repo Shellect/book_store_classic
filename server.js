@@ -1,4 +1,3 @@
-// Подключение модулей
 const express = require('express');
 const bodyParser = require("body-parser");
 const { body, validationResult } = require('express-validator');
@@ -15,10 +14,7 @@ function error_log(err) {
 }
 
 // Настройка клиент Redis
-const redisClient = redis.createClient({
-    host: '127.0.0.1',
-    port: 6379
-});
+const redisClient = redis.createClient({url: 'redis://redis_db:6379'});
 redisClient.connect().catch(error_log);
 
 // Создание хранилища
@@ -33,7 +29,7 @@ app.use('/media', express.static('media'));
 app.use(express.json());
 app.use(session({
     store: redisStore,
-    secret: 'eptBATPhykOaN8LqWvl38KGdGa8ZRc60',
+    secret: process.env.API_KEY,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }
@@ -77,7 +73,9 @@ app.get('/auth', (req, res) => {
 });
 
 app.post('/auth',
-    bodyParser.urlencoded(),
+    bodyParser.urlencoded({
+        extended: true
+    }),
     body('username').notEmpty(),
     body('password').notEmpty(),
     (req, res, next) => {
@@ -104,5 +102,5 @@ app.post('/auth',
     });
 
 app.listen(3000, () => {
-    console.log(`Server started by address: http://bookshop.local:3000`);
+    console.log(`Server started by address: http://localhost:3000`);
 });
